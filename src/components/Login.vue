@@ -45,8 +45,10 @@
                       self.clearInput();
                     } else {
                       var token = response.data.token;
+                      var id = response.data.id;
+                      localStorage.setItem("id",id);
                       localStorage.setItem("token", token);
-                      self.$router.push({path: '/user', query: {userid: response.data.id}});
+                      self.$router.push({path: '/user'});
                     }
                   })
                   .catch(function (error) {

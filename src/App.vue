@@ -7,7 +7,12 @@
 
 <script>
 export default {
-  name: 'app'
+  name: 'app',
+  created(){
+      if(localStorage.getItem("token")){
+          this.$router.push({path:'/user'});
+      }
+  }
 }
 </script>
 
