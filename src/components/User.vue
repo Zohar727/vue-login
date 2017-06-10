@@ -10,7 +10,7 @@
     </div>
 </template>
 <script>
-  import axios from 'axios'
+  import api from '../common/http'
     export default{
         name:"User",
         data(){
@@ -20,25 +20,20 @@
             }
         },
         created(){
-            var self = this;
             this.id = localStorage.getItem("id");
+            var token = localStorage.getItem("token");
             if(this.id){
-              axios.get('/api/user/' + this.id, {
-                params: {token: localStorage.getItem("token")}
-              })
-                .then(function (response) {
-                  //console.log(response.data);
-                  self.info = response.data;
-                })
-                .catch(function (error) {
-                  //console.log(error);
-                  alert("登录失效，请重新登录！");
-                  self.$router.push({path:'/'});
-                });
-
+                api.UserInfo(this.id,token)
+                  .then(res => {
+                      this.info = res;
+                  })
+                  .catch(err => {
+                    alert("登录失效，请重新登录！");
+                    this.$router.push({path:'/'});
+                  })
             }else {
               alert("请先登录！");
-              self.$router.push({path:'/'});
+              this.$router.push({path:'/'});
             }
         },
         methods:{
@@ -51,17 +46,5 @@
     }
 </script>
 <style>
-  .userInfo{
-    background-color: #fff;
-    width: 400px;
-    height: 455px;
-    box-shadow: 0 3px 16px -5px #070707;
-    border-radius: 5px;
-    margin: 0 auto;
-  }
-  .logout{
-    color: #fa070f;
-    font-size: 12px;
-    cursor: pointer;
-  }
+  @import "../style/user.css";
 </style>
